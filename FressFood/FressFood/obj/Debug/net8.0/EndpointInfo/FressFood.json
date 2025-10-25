@@ -1,0 +1,2005 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "FressFood",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Carts/user/{userId}": {
+      "get": {
+        "tags": [
+          "Carts"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Carts/add": {
+      "post": {
+        "tags": [
+          "Carts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToCartRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToCartRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToCartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Carts/remove/{userId}/{productId}": {
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Carts/update-quantity": {
+      "put": {
+        "tags": [
+          "Carts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuantityRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuantityRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuantityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Carts/clear/{userId}": {
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Category/{categoryId}/products": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Category": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TenDanhMuc": {
+                    "type": "string"
+                  },
+                  "IconFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "TenDanhMuc": {
+                  "style": "form"
+                },
+                "IconFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Category/{id}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TenDanhMuc": {
+                    "type": "string"
+                  },
+                  "IconFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "CurrentIconPath": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "TenDanhMuc": {
+                  "style": "form"
+                },
+                "IconFile": {
+                  "style": "form"
+                },
+                "CurrentIconPath": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Category/search/{name}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Coupon": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Coupon"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Coupon/Search": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Coupon/{id}": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coupon"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Coupon/Code/{code}": {
+      "get": {
+        "tags": [
+          "Coupon"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite": {
+      "get": {
+        "tags": [
+          "Favorite"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Favorite"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Favorite"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Favorite"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Favorite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite/User/{maTaiKhoan}": {
+      "get": {
+        "tags": [
+          "Favorite"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite/Check": {
+      "get": {
+        "tags": [
+          "Favorite"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maSanPham",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite/{id}": {
+      "delete": {
+        "tags": [
+          "Favorite"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite/Remove": {
+      "delete": {
+        "tags": [
+          "Favorite"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maSanPham",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Favorite/Product/{maTaiKhoan}/{maSanPham}": {
+      "delete": {
+        "tags": [
+          "Favorite"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Orders/{maDonHang}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "maDonHang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Orders/{maDonHang}/status": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "maDonHang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Orders/{maDonHang}/payment-status": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "maDonHang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentStatusUpdateRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentStatusUpdateRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentStatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Orders/user/{maTaiKhoan}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Pay": {
+      "get": {
+        "tags": [
+          "Pay"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pay"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Pay/Search": {
+      "get": {
+        "tags": [
+          "Pay"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Pay/{id}": {
+      "get": {
+        "tags": [
+          "Pay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Pay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pay"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pay"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TenSanPham": {
+                    "type": "string"
+                  },
+                  "MoTa": {
+                    "type": "string"
+                  },
+                  "GiaBan": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Anh": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "SoLuongTon": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "XuatXu": {
+                    "type": "string"
+                  },
+                  "DonViTinh": {
+                    "type": "string"
+                  },
+                  "MaDanhMuc": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "TenSanPham": {
+                  "style": "form"
+                },
+                "MoTa": {
+                  "style": "form"
+                },
+                "GiaBan": {
+                  "style": "form"
+                },
+                "Anh": {
+                  "style": "form"
+                },
+                "SoLuongTon": {
+                  "style": "form"
+                },
+                "XuatXu": {
+                  "style": "form"
+                },
+                "DonViTinh": {
+                  "style": "form"
+                },
+                "MaDanhMuc": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "TenSanPham": {
+                    "type": "string"
+                  },
+                  "MoTa": {
+                    "type": "string"
+                  },
+                  "GiaBan": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Anh": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "SoLuongTon": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "XuatXu": {
+                    "type": "string"
+                  },
+                  "DonViTinh": {
+                    "type": "string"
+                  },
+                  "MaDanhMuc": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "TenSanPham": {
+                  "style": "form"
+                },
+                "MoTa": {
+                  "style": "form"
+                },
+                "GiaBan": {
+                  "style": "form"
+                },
+                "Anh": {
+                  "style": "form"
+                },
+                "SoLuongTon": {
+                  "style": "form"
+                },
+                "XuatXu": {
+                  "style": "form"
+                },
+                "DonViTinh": {
+                  "style": "form"
+                },
+                "MaDanhMuc": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Product/Search": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ratings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Ratings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Rating"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings/{maSanPham}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings/product/{maSanPham}/average": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings/{maSanPham}/{maTaiKhoan}": {
+      "delete": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maTaiKhoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Ratings/user/{maTaiKhoan}/{maSanPham}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "parameters": [
+          {
+            "name": "maTaiKhoan",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sale": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Sale"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sale/{id}": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sale"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Sale"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sale"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sale/product/{maSanPham}": {
+      "get": {
+        "tags": [
+          "Sale"
+        ],
+        "parameters": [
+          {
+            "name": "maSanPham",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/search/{name}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddToCartRequest": {
+        "required": [
+          "maSanPham",
+          "maTaiKhoan"
+        ],
+        "type": "object",
+        "properties": {
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          },
+          "soLuong": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Coupon": {
+        "type": "object",
+        "properties": {
+          "id_phieugiamgia": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "giaTri": {
+            "type": "number",
+            "format": "double"
+          },
+          "moTa": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Favorite": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "matKhau": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "maDonHang": {
+            "type": "string",
+            "nullable": true
+          },
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "ngayDat": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trangThai": {
+            "type": "string",
+            "nullable": true
+          },
+          "diaChiGiaoHang": {
+            "type": "string",
+            "nullable": true
+          },
+          "soDienThoai": {
+            "type": "string",
+            "nullable": true
+          },
+          "ghiChu": {
+            "type": "string",
+            "nullable": true
+          },
+          "phuongThucThanhToan": {
+            "type": "string",
+            "nullable": true
+          },
+          "trangThaiThanhToan": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_phieugiamgia": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Pay": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderDetail": {
+        "type": "object",
+        "properties": {
+          "maDonHang": {
+            "type": "string",
+            "nullable": true
+          },
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenSanPham": {
+            "type": "string",
+            "nullable": true
+          },
+          "giaBan": {
+            "type": "number",
+            "format": "double"
+          },
+          "soLuong": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Order"
+          },
+          "orderDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDetail"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Pay": {
+        "type": "object",
+        "properties": {
+          "id_Pay": {
+            "type": "string",
+            "nullable": true
+          },
+          "pay_name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentStatusUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "trangThaiThanhToan": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Rating": {
+        "type": "object",
+        "properties": {
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          },
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "noiDung": {
+            "type": "string",
+            "nullable": true
+          },
+          "soSao": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sale": {
+        "type": "object",
+        "properties": {
+          "id_sale": {
+            "type": "string",
+            "nullable": true
+          },
+          "giaTriKhuyenMai": {
+            "type": "number",
+            "format": "double"
+          },
+          "moTaChuongTrinh": {
+            "type": "string",
+            "nullable": true
+          },
+          "ngayBatDau": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ngayKetThuc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trangThai": {
+            "type": "string",
+            "nullable": true
+          },
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "trangThai": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateQuantityRequest": {
+        "required": [
+          "maSanPham",
+          "maTaiKhoan"
+        ],
+        "type": "object",
+        "properties": {
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "maSanPham": {
+            "type": "string",
+            "nullable": true
+          },
+          "soLuong": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "maTaiKhoan": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenNguoiDung": {
+            "type": "string",
+            "nullable": true
+          },
+          "matKhau": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "hoTen": {
+            "type": "string",
+            "nullable": true
+          },
+          "sdt": {
+            "type": "string",
+            "nullable": true
+          },
+          "diaChi": {
+            "type": "string",
+            "nullable": true
+          },
+          "vaiTro": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

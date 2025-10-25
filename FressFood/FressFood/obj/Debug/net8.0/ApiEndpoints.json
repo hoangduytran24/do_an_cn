@@ -1,0 +1,1111 @@
+[
+  {
+    "ContainingType": "FoodShop.Controllers.CartsController",
+    "Method": "AddToCart",
+    "RelativePath": "api/Carts/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "FoodShop.Controllers.AddToCartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CartsController",
+    "Method": "ClearCart",
+    "RelativePath": "api/Carts/clear/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CartsController",
+    "Method": "RemoveFromCart",
+    "RelativePath": "api/Carts/remove/{userId}/{productId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CartsController",
+    "Method": "UpdateQuantity",
+    "RelativePath": "api/Carts/update-quantity",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "FoodShop.Controllers.UpdateQuantityRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CartsController",
+    "Method": "GetCartByUser",
+    "RelativePath": "api/Carts/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "Get",
+    "RelativePath": "api/Category",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "Post",
+    "RelativePath": "api/Category",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TenDanhMuc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "IconFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "GetProductsByCategory",
+    "RelativePath": "api/Category/{categoryId}/products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "GetById",
+    "RelativePath": "api/Category/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "Put",
+    "RelativePath": "api/Category/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "TenDanhMuc",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "IconFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "CurrentIconPath",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "Delete",
+    "RelativePath": "api/Category/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.CategoryController",
+    "Method": "SearchByName",
+    "RelativePath": "api/Category/search/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "Get",
+    "RelativePath": "api/Coupon",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "Post",
+    "RelativePath": "api/Coupon",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "coupon",
+        "Type": "FressFood.Models.Coupon",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "GetById",
+    "RelativePath": "api/Coupon/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "Put",
+    "RelativePath": "api/Coupon/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "coupon",
+        "Type": "FressFood.Models.Coupon",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "Delete",
+    "RelativePath": "api/Coupon/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "GetByCode",
+    "RelativePath": "api/Coupon/Code/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.CouponController",
+    "Method": "Search",
+    "RelativePath": "api/Coupon/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "Get",
+    "RelativePath": "api/Favorite",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "Post",
+    "RelativePath": "api/Favorite",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favorite",
+        "Type": "FressFood.Models.Favorite",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "Delete",
+    "RelativePath": "api/Favorite/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "CheckFavorite",
+    "RelativePath": "api/Favorite/Check",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "DeleteFavorite",
+    "RelativePath": "api/Favorite/Product/{maTaiKhoan}/{maSanPham}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "RemoveByProductAndUser",
+    "RelativePath": "api/Favorite/Remove",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.FavoriteController",
+    "Method": "GetByUser",
+    "RelativePath": "api/Favorite/User/{maTaiKhoan}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Orders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/Orders",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "FoodShop.Controllers.OrderRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "GetOrderById",
+    "RelativePath": "api/Orders/{maDonHang}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maDonHang",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "UpdatePaymentStatus",
+    "RelativePath": "api/Orders/{maDonHang}/payment-status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maDonHang",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "FoodShop.Controllers.PaymentStatusUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "UpdateOrderStatus",
+    "RelativePath": "api/Orders/{maDonHang}/status",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maDonHang",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "FoodShop.Controllers.StatusUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.OrdersController",
+    "Method": "GetOrdersByUser",
+    "RelativePath": "api/Orders/user/{maTaiKhoan}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "Get",
+    "RelativePath": "api/Pay",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "Post",
+    "RelativePath": "api/Pay",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pay",
+        "Type": "FressFood.Models.Pay",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "GetById",
+    "RelativePath": "api/Pay/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "Put",
+    "RelativePath": "api/Pay/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "pay",
+        "Type": "FressFood.Models.Pay",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "Delete",
+    "RelativePath": "api/Pay/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.PayController",
+    "Method": "Search",
+    "RelativePath": "api/Pay/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "Get",
+    "RelativePath": "api/Product",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "Post",
+    "RelativePath": "api/Product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TenSanPham",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoTa",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "GiaBan",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Anh",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "SoLuongTon",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "XuatXu",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DonViTinh",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaDanhMuc",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "GetId",
+    "RelativePath": "api/Product/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "Put",
+    "RelativePath": "api/Product/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "TenSanPham",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MoTa",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "GiaBan",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Anh",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "SoLuongTon",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "XuatXu",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DonViTinh",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaDanhMuc",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "Delete",
+    "RelativePath": "api/Product/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.ProductController",
+    "Method": "Search",
+    "RelativePath": "api/Product/Search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "GetRatings",
+    "RelativePath": "api/Ratings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "AddRating",
+    "RelativePath": "api/Ratings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rating",
+        "Type": "FressFood.Models.Rating",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "UpdateRating",
+    "RelativePath": "api/Ratings",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rating",
+        "Type": "FressFood.Models.Rating",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "GetRatingsByProduct",
+    "RelativePath": "api/Ratings/{maSanPham}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "DeleteRating",
+    "RelativePath": "api/Ratings/{maSanPham}/{maTaiKhoan}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "GetAverageRating",
+    "RelativePath": "api/Ratings/product/{maSanPham}/average",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.RatingsController",
+    "Method": "GetUserRating",
+    "RelativePath": "api/Ratings/user/{maTaiKhoan}/{maSanPham}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maTaiKhoan",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "GetAllSales",
+    "RelativePath": "api/Sale",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "CreateSale",
+    "RelativePath": "api/Sale",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sale",
+        "Type": "FressFood.Models.Sale",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "GetSaleById",
+    "RelativePath": "api/Sale/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "UpdateSale",
+    "RelativePath": "api/Sale/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "sale",
+        "Type": "FressFood.Models.Sale",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "DeleteSale",
+    "RelativePath": "api/Sale/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FressFood.Controllers.SaleController",
+    "Method": "GetSaleByProduct",
+    "RelativePath": "api/Sale/product/{maSanPham}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "maSanPham",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "Get",
+    "RelativePath": "api/User",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "Post",
+    "RelativePath": "api/User",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "FressFood.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "Put",
+    "RelativePath": "api/User/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "user",
+        "Type": "FressFood.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "Delete",
+    "RelativePath": "api/User/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "Login",
+    "RelativePath": "api/User/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "FoodShop.Controllers.UserController\u002BLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodShop.Controllers.UserController",
+    "Method": "SearchByName",
+    "RelativePath": "api/User/search/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
