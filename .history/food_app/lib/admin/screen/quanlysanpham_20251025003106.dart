@@ -3,20 +3,20 @@ import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../service/api_service.dart';
-import '../../models/Category.dart';
+import '../../models/Product.dart';
 
-class QuanLyDanhMucScreen extends StatefulWidget {
-  const QuanLyDanhMucScreen({super.key});
+class QuanLySanPhamScreen extends StatefulWidget {
+  const QuanLySanPhamScreen({super.key});
 
   @override
-  State<QuanLyDanhMucScreen> createState() => _QuanLyDanhMucScreenState();
+  State<QuanLySanPhamScreen> createState() => _QuanLySanPhamScreenState();
 }
 
-class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
+class _QuanLySanPhamScreenState extends State<QuanLySanPhamScreen> {
   final ApiService _apiService = ApiService();
   final ImagePicker _imagePicker = ImagePicker();
-  List<Category> _categories = [];
-  List<Category> _filteredCategories = [];
+  List<Product> _products = [];
+  List<Product> _filteredProducts = [];
   bool _isLoading = true;
   String _searchKeyword = '';
   final TextEditingController _searchController = TextEditingController();
@@ -27,16 +27,16 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCategories();
+    _loadProducts();
   }
 
-  Future<void> _loadCategories() async {
+  Future<void> _loadProducts() async {
     setState(() => _isLoading = true);
     try {
-      final categories = await _apiService.getCategories();
+      final products = await _apiService.getProducts();
       setState(() {
-        _categories = categories;
-        _filteredCategories = categories;
+        _products = products;
+        _filteredProducts = products;
         _isLoading = false;
       });
     } catch (e) {
@@ -48,24 +48,23 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
   void _onSearch(String keyword) {
     setState(() => _searchKeyword = keyword);
     if (keyword.isEmpty) {
-      setState(() => _filteredCategories = _categories);
+      setState(() => _filteredProducts = _products);
       return;
     }
     setState(() {
-      _filteredCategories = _categories.where((category) =>
-          category.tenDanhMuc.toLowerCase().contains(keyword.toLowerCase()) ||
-          category.maDanhMuc.toLowerCase().contains(keyword.toLowerCase())).toList();
+      _filteredProducts = _products.where((product) =>
+          product.tenSanPham.toLowerCase().contains(keyword.toLowerCase())).toList();
     });
   }
 
-  void _showAddCategoryDialog() {
+  void _showAddProductDialog() {
     _resetImageState();
-    _showCategoryDialog();
+    _showProductDialog();
   }
 
-  void _showEditCategoryDialog(Category category) {
+  void _showEditProductDialog(Product product) {
     _resetImageState();
-    _showCategoryDialog(category: category);
+    _showProductDialog(product: product);
   }
 
   void _resetImageState() {
@@ -106,7 +105,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: const BoxDecoration(
-                  color: Color(0xFF1A4D2E),
+                  color: Color(0xFF2E7D32),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -117,7 +116,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                     Icon(Iconsax.gallery, color: Colors.white, size: 24),
                     SizedBox(width: 12),
                     Text(
-                      'Chọn ảnh danh mục',
+                      'Chọn ảnh sản phẩm',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -166,11 +165,11 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF1A4D2E),
+        foregroundColor: const Color(0xFF2E7D32),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: Color(0xFF1A4D2E)),
+          side: const BorderSide(color: Color(0xFF2E7D32)),
         ),
       ),
       child: Row(
@@ -184,9 +183,9 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
-  void _showCategoryDialog({Category? category}) {
-    final isEdit = category != null;
-    final controller = TextEditingController(text: category?.tenDanhMuc ?? '');
+  void _showProductDialog({Product? product}) {
+    final isEdit = product != null;
+    final controllers = _initControllers(product);
 
     showDialog(
       context: context,
@@ -199,8 +198,8 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildDialogHeader(isEdit),
-                _buildDialogForm(controller, isEdit, category),
-                _buildDialogActions(controller, isEdit, category),
+                _buildDialogForm(controllers, isEdit, product),
+                _buildDialogActions(controllers, isEdit, product),
               ],
             ),
           ),
@@ -209,11 +208,23 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
+  Map<String, TextEditingController> _initControllers(Product? product) {
+    return {
+      'tenSanPham': TextEditingController(text: product?.tenSanPham ?? ''),
+      'giaBan': TextEditingController(text: product?.giaBan.toString() ?? ''),
+      'moTa': TextEditingController(text: product?.moTa ?? ''),
+      'soLuongTon': TextEditingController(text: product?.soLuongTon.toString() ?? ''),
+      'donViTinh': TextEditingController(text: product?.donViTinh ?? ''),
+      'xuatXu': TextEditingController(text: product?.xuatXu ?? ''),
+      'maDanhMuc': TextEditingController(text: product?.maDanhMuc ?? ''),
+    };
+  }
+
   Widget _buildDialogHeader(bool isEdit) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
-        color: Color(0xFF1A4D2E),
+        color: Color(0xFF2E7D32),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -228,7 +239,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
           ),
           const SizedBox(width: 12),
           Text(
-            isEdit ? 'Sửa danh mục' : 'Thêm danh mục mới',
+            isEdit ? 'Sửa sản phẩm' : 'Thêm sản phẩm mới',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -240,21 +251,37 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
-  Widget _buildDialogForm(TextEditingController controller, bool isEdit, Category? category) {
+  Widget _buildDialogForm(Map<String, TextEditingController> controllers, bool isEdit, Product? product) {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          _buildImageUploadSection(category),
+          _buildImageUploadSection(product),
           const SizedBox(height: 16),
-          _buildTextField(controller, 'Tên danh mục *', Iconsax.category),
+          _buildTextField(controllers['tenSanPham']!, 'Tên sản phẩm *', Iconsax.box),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _buildTextField(controllers['giaBan']!, 'Giá bán *', Iconsax.dollar_circle, TextInputType.number)),
+              const SizedBox(width: 16),
+              Expanded(child: _buildTextField(controllers['soLuongTon']!, 'Số lượng tồn *', Iconsax.shop, TextInputType.number)),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _buildTextField(controllers['donViTinh']!, 'Đơn vị tính *', Iconsax.weight),
+          const SizedBox(height: 16),
+          _buildTextField(controllers['xuatXu']!, 'Xuất xứ', Iconsax.location),
+          const SizedBox(height: 16),
+          _buildTextField(controllers['maDanhMuc']!, 'Mã danh mục *', Iconsax.category),
+          const SizedBox(height: 16),
+          _buildTextField(controllers['moTa']!, 'Mô tả', Iconsax.note, null, 3),
         ],
       ),
     );
   }
 
-  Widget _buildImageUploadSection(Category? category) {
-    final hasExistingImage = category?.icon != null && category!.icon.isNotEmpty;
+  Widget _buildImageUploadSection(Product? product) {
+    final hasExistingImage = product?.anh != null && product!.anh.isNotEmpty;
     final hasNewImage = _selectedImage != null;
 
     return Container(
@@ -270,7 +297,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               Icon(Iconsax.gallery, size: 16, color: Colors.grey),
               SizedBox(width: 8),
               Text(
-                'Hình ảnh danh mục',
+                'Hình ảnh sản phẩm',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Colors.grey,
@@ -292,7 +319,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                     )
                   : hasExistingImage
                       ? DecorationImage(
-                          image: NetworkImage(_getImageUrl(category.icon)),
+                          image: NetworkImage(product.anh),
                           fit: BoxFit.cover,
                         )
                       : null,
@@ -305,7 +332,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
           _isUploadingImage
               ? const Column(
                   children: [
-                    CircularProgressIndicator(color: Color(0xFF1A4D2E)),
+                    CircularProgressIndicator(color: Color(0xFF2E7D32)),
                     SizedBox(height: 8),
                     Text('Đang xử lý...', style: TextStyle(fontSize: 12, color: Colors.grey)),
                   ],
@@ -313,7 +340,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               : ElevatedButton(
                   onPressed: _showImageSourceDialog,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1A4D2E),
+                    backgroundColor: const Color(0xFF2E7D32),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -332,34 +359,31 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
-  String _getImageUrl(String iconPath) {
-    if (iconPath.startsWith('http')) {
-      return iconPath.replaceAll('localhost', '10.0.2.2');
-    }
-    return iconPath;
-  }
-
   Widget _buildTextField(
     TextEditingController controller,
     String label,
-    IconData icon,
-  ) {
+    IconData icon, [
+    TextInputType? keyboardType,
+    int maxLines = 1,
+  ]) {
     return TextField(
       controller: controller,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(icon, color: const Color(0xFF1A4D2E)),
+        prefixIcon: Icon(icon, color: const Color(0xFF2E7D32)),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF1A4D2E), width: 2),
+          borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
     );
   }
 
-  Widget _buildDialogActions(TextEditingController controller, bool isEdit, Category? category) {
+  Widget _buildDialogActions(Map<String, TextEditingController> controllers, bool isEdit, Product? product) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -382,9 +406,9 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
           ),
           const SizedBox(width: 12),
           ElevatedButton(
-            onPressed: () => _handleSaveCategory(controller, isEdit, category),
+            onPressed: () => _handleSaveProduct(controllers, isEdit, product),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF1A4D2E),
+              backgroundColor: const Color(0xFF2E7D32),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -405,27 +429,31 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
-  Future<void> _handleSaveCategory(TextEditingController controller, bool isEdit, Category? category) async {
-    if (controller.text.isEmpty) {
-      _showErrorDialog('Lỗi', 'Vui lòng nhập tên danh mục');
-      return;
-    }
+  Future<void> _handleSaveProduct(Map<String, TextEditingController> controllers, bool isEdit, Product? product) async {
+    if (!_validateForm(controllers)) return;
 
     setState(() => _isUploadingImage = true);
 
     try {
+      final newProduct = Product(
+        maSanPham: product?.maSanPham ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        tenSanPham: controllers['tenSanPham']!.text,
+        giaBan: double.tryParse(controllers['giaBan']!.text) ?? 0,
+        moTa: controllers['moTa']!.text,
+        soLuongTon: int.tryParse(controllers['soLuongTon']!.text) ?? 0,
+        donViTinh: controllers['donViTinh']!.text,
+        xuatXu: controllers['xuatXu']!.text,
+        maDanhMuc: controllers['maDanhMuc']!.text,
+        anh: product?.anh ?? '',
+      );
+
       final success = isEdit
-          ? await _apiService.updateCategory(
-              category!.maDanhMuc, 
-              controller.text.trim(), 
-              _selectedImage,
-              currentIconPath: category.icon
-            )
-          : await _apiService.addCategory(controller.text.trim(), _selectedImage);
+          ? await _apiService.updateProduct(product!.maSanPham, newProduct, _selectedImage)
+          : await _apiService.addProduct(newProduct, _selectedImage);
 
       if (success) {
         Navigator.pop(context);
-        _loadCategories();
+        _loadProducts();
         _showSuccessSnackbar(isEdit ? 'Cập nhật thành công' : 'Thêm thành công');
       } else {
         throw Exception('Thao tác thất bại');
@@ -437,7 +465,19 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     }
   }
 
-  void _showDeleteConfirmation(Category category) {
+  bool _validateForm(Map<String, TextEditingController> controllers) {
+    if (controllers['tenSanPham']!.text.isEmpty ||
+        controllers['giaBan']!.text.isEmpty ||
+        controllers['soLuongTon']!.text.isEmpty ||
+        controllers['donViTinh']!.text.isEmpty ||
+        controllers['maDanhMuc']!.text.isEmpty) {
+      _showErrorDialog('Lỗi', 'Vui lòng nhập đầy đủ các trường bắt buộc (*)');
+      return false;
+    }
+    return true;
+  }
+
+  void _showDeleteConfirmation(Product product) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -476,7 +516,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                 child: Column(
                   children: [
                     Text(
-                      'Bạn có chắc muốn xóa danh mục "${category.tenDanhMuc}"?',
+                      'Bạn có chắc muốn xóa sản phẩm "${product.tenSanPham}"?',
                       style: const TextStyle(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
@@ -512,11 +552,11 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                     const SizedBox(width: 12),
                     ElevatedButton(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        Navigator.pop(context); // Đóng dialog xác nhận trước
                         try {
-                          final success = await _apiService.deleteCategory(category.maDanhMuc);
+                          final success = await _apiService.deleteProduct(product.maSanPham);
                           if (success) {
-                            _loadCategories();
+                            _loadProducts();
                             _showSuccessSnackbar('Xóa thành công');
                           } else {
                             throw Exception('Xóa thất bại');
@@ -613,18 +653,11 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     );
   }
 
-  Color _getCategoryColor(int index) {
-    final colors = [
-      Color(0xFF667EEA),
-      Color(0xFF1A4D2E),
-      Color(0xFFFF6B6B),
-      Color(0xFFFFA726),
-      Color(0xFF9575CD),
-      Color(0xFF4DB6AC),
-      Color(0xFFF06292),
-      Color(0xFF7986CB),
-    ];
-    return colors[index % colors.length];
+  String _formatPrice(double price) {
+    return '${price.toStringAsFixed(0).replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    )}₫';
   }
 
   @override
@@ -633,7 +666,6 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
       backgroundColor: const Color(0xFFF8FAFD),
       body: Column(
         children: [
-          // Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
@@ -651,31 +683,31 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A4D2E).withOpacity(0.1),
+                    color: const Color(0xFF2E7D32).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Iconsax.category, color: Color(0xFF1A4D2E), size: 24),
+                  child: const Icon(Iconsax.box, color: Color(0xFF2E7D32), size: 24),
                 ),
                 const SizedBox(width: 12),
                 const Text(
-                  'Quản lý danh mục',
+                  'Quản lý sản phẩm',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF1A4D2E),
+                    color: Color(0xFF2E7D32),
                   ),
                 ),
                 const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A4D2E).withOpacity(0.1),
+                    color: const Color(0xFF2E7D32).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    '${_filteredCategories.length} danh mục',
+                    '${_filteredProducts.length} sản phẩm',
                     style: const TextStyle(
-                      color: Color(0xFF1A4D2E),
+                      color: Color(0xFF2E7D32),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -683,15 +715,13 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               ],
             ),
           ),
-          
-          // Search
           Container(
             padding: const EdgeInsets.all(20),
             color: Colors.white,
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Tìm kiếm danh mục...',
+                hintText: 'Tìm kiếm sản phẩm...',
                 prefixIcon: const Icon(Iconsax.search_normal, color: Colors.grey),
                 suffixIcon: _searchKeyword.isNotEmpty
                     ? IconButton(
@@ -713,21 +743,19 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               onChanged: _onSearch,
             ),
           ),
-          
-          // Categories Grid
           Expanded(
             child: _isLoading
                 ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(color: Color(0xFF1A4D2E)),
+                        CircularProgressIndicator(color: Color(0xFF2E7D32)),
                         SizedBox(height: 16),
-                        Text('Đang tải danh mục...', style: TextStyle(color: Colors.grey)),
+                        Text('Đang tải sản phẩm...', style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                   )
-                : _filteredCategories.isEmpty
+                : _filteredProducts.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -739,55 +767,48 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
-                                _searchKeyword.isEmpty ? Iconsax.category : Iconsax.search_normal,
+                                _searchKeyword.isEmpty ? Iconsax.box : Iconsax.search_normal,
                                 size: 64,
                                 color: Colors.grey,
                               ),
                             ),
                             const SizedBox(height: 24),
                             Text(
-                              _searchKeyword.isEmpty ? 'Chưa có danh mục nào' : 'Không tìm thấy danh mục',
+                              _searchKeyword.isEmpty ? 'Chưa có sản phẩm nào' : 'Không tìm thấy sản phẩm',
                               style: const TextStyle(fontSize: 18, color: Colors.grey),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              _searchKeyword.isEmpty ? 'Hãy thêm danh mục đầu tiên của bạn' : 'Thử tìm kiếm với từ khóa khác',
+                              _searchKeyword.isEmpty ? 'Hãy thêm sản phẩm đầu tiên của bạn' : 'Thử tìm kiếm với từ khóa khác',
                               style: const TextStyle(color: Colors.grey),
                             ),
                             if (_searchKeyword.isEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(top: 24),
                                 child: ElevatedButton(
-                                  onPressed: _showAddCategoryDialog,
+                                  onPressed: _showAddProductDialog,
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF1A4D2E),
+                                    backgroundColor: const Color(0xFF2E7D32),
                                     foregroundColor: Colors.white,
                                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                   ),
-                                  child: const Text('Thêm danh mục đầu tiên'),
+                                  child: const Text('Thêm sản phẩm đầu tiên'),
                                 ),
                               ),
                           ],
                         ),
                       )
                     : RefreshIndicator(
-                        onRefresh: _loadCategories,
-                        color: const Color(0xFF1A4D2E),
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(16),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 0.8,
-                          ),
-                          itemCount: _filteredCategories.length,
+                        onRefresh: _loadProducts,
+                        color: const Color(0xFF2E7D32),
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(20),
+                          itemCount: _filteredProducts.length,
                           itemBuilder: (context, index) {
-                            final category = _filteredCategories[index];
-                            final color = _getCategoryColor(index);
-                            
+                            final product = _filteredProducts[index];
                             return Container(
+                              margin: const EdgeInsets.only(bottom: 16),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
@@ -799,150 +820,114 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                                   ),
                                 ],
                               ),
-                              child: Column(
-                                children: [
-                                  // Image Section
-                                  Container(
-                                    height: 120, // Tăng chiều cao
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Hình ảnh sản phẩm
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFE8F5E8),
+                                        image: product.anh.isNotEmpty
+                                            ? DecorationImage(
+                                                image: NetworkImage(product.anh),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : null,
                                       ),
+                                      child: product.anh.isEmpty
+                                          ? const Icon(Iconsax.box, color: Color(0xFF2E7D32), size: 24)
+                                          : null,
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16),
-                                      ),
-                                      child: category.icon.isNotEmpty
-                                          ? Image.network(
-                                              _getImageUrl(category.icon),
-                                              width: double.infinity, // Full width
-                                              height: double.infinity, // Full height
-                                              fit: BoxFit.cover, // Cover toàn bộ container
-                                              loadingBuilder: (context, child, loadingProgress) {
-                                                if (loadingProgress == null) return child;
-                                                return Container(
-                                                  color: Colors.grey[200],
-                                                  child: Center(
-                                                    child: CircularProgressIndicator(
-                                                      value: loadingProgress.expectedTotalBytes != null
-                                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                                          : null,
-                                                      color: const Color(0xFF1A4D2E),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder: (context, error, stackTrace) {
-                                                return Container(
-                                                  color: color.withOpacity(0.3),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Iconsax.gallery_slash,
-                                                      size: 40,
-                                                      color: color.withOpacity(0.6),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : Container(
-                                              color: color.withOpacity(0.3),
-                                              child: Center(
-                                                child: Icon(
-                                                  Iconsax.category,
-                                                  size: 40,
-                                                  color: color.withOpacity(0.6),
-                                                ),
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                  
-                                  // Content Section
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
+                                    const SizedBox(width: 16),
+                                    
+                                    // Thông tin sản phẩm
+                                    Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade100,
-                                              borderRadius: BorderRadius.circular(4),
-                                            ),
-                                            child: Text(
-                                              category.maDanhMuc,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.grey[700],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
                                           Text(
-                                            category.tenDanhMuc,
+                                            product.tenSanPham,
                                             style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black87,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
                                             ),
-                                            maxLines: 2,
+                                            maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const Spacer(),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            _formatPrice(product.giaBan),
+                                            style: const TextStyle(
+                                              color: Color(0xFF2E7D32),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
+                                              Text(
+                                                '${product.soLuongTon} ${product.donViTinh}',
+                                                style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                              ),
+                                              const SizedBox(width: 12),
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.green.withOpacity(0.1),
+                                                  color: product.soLuongTon > 0 
+                                                      ? const Color(0xFFE8F5E8) 
+                                                      : const Color(0xFFFFEBEE),
                                                   borderRadius: BorderRadius.circular(6),
                                                 ),
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(Iconsax.box, size: 12, color: Colors.green),
-                                                    SizedBox(width: 2),
-                                                    Text(
-                                                      '0 SP',
-                                                      style: TextStyle(
-                                                        color: Colors.green,
-                                                        fontSize: 10,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                child: Text(
+                                                  product.soLuongTon > 0 ? 'Còn hàng' : 'Hết hàng',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: product.soLuongTon > 0 
+                                                        ? const Color(0xFF2E7D32)
+                                                        : Colors.red,
+                                                  ),
                                                 ),
-                                              ),
-                                              Row(
-                                                children: [
-                                                  _buildActionButton(
-                                                    onPressed: () => _showEditCategoryDialog(category),
-                                                    icon: Iconsax.edit,
-                                                    color: Color(0xFF2196F3),
-                                                    size: 14,
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  _buildActionButton(
-                                                    onPressed: () => _showDeleteConfirmation(category),
-                                                    icon: Iconsax.trash,
-                                                    color: Colors.red,
-                                                    size: 14,
-                                                  ),
-                                                ],
                                               ),
                                             ],
                                           ),
+                                          if (product.moTa.isNotEmpty) ...[
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              product.moTa,
+                                              style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ],
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    
+                                    // Nút hành động
+                                    Column(
+                                      children: [
+                                        _buildActionButton(
+                                          onPressed: () => _showEditProductDialog(product),
+                                          icon: Iconsax.edit,
+                                          color: const Color(0xFF2196F3),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        _buildActionButton(
+                                          onPressed: () => _showDeleteConfirmation(product),
+                                          icon: Iconsax.trash,
+                                          color: Colors.red,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -952,8 +937,8 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddCategoryDialog,
-        backgroundColor: const Color(0xFF1A4D2E),
+        onPressed: _showAddProductDialog,
+        backgroundColor: const Color(0xFF2E7D32),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: const Icon(Iconsax.add, size: 24),
@@ -965,17 +950,16 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     required VoidCallback onPressed,
     required IconData icon,
     required Color color,
-    double size = 18,
   }) {
     return Container(
-      width: size + 8,
-      height: size + 8,
+      width: 36,
+      height: 36,
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(
-        icon: Icon(icon, size: size, color: color),
+        icon: Icon(icon, size: 18, color: color),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),

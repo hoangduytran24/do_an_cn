@@ -792,34 +792,32 @@ Future<bool> deleteCategory(String id) async {
     }
   }
 
-Future<List<Product>> getProductsByCategory(String categoryId) async {
-  try {
-    final response = await http.get(
-      Uri.parse('$baseUrl/Category/$categoryId/products'),
-      headers: await getHeaders(),
-    ).timeout(const Duration(seconds: 30));
+  Future<List<Product>> getProductsByCategory(String categoryId) async {
+    try {
+      final headers = await getHeaders();
+      final response = await http.get(
+        Uri.parse('$baseUrl/Category/$categoryId/products'),
+        headers: headers,
+      ).timeout(const Duration(seconds: 30));
 
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      print('Products by Category API Response: ${response.statusCode}');
       
-      // Xử lý URL ảnh trước khi tạo Product
-      final processedData = data.map((item) {
-        if (item['anh'] != null && item['anh'].contains('localhost')) {
-          item['anh'] = item['anh'].replaceAll('localhost', '10.0.2.2');
-        }
-        return item;
-      }).toList();
-      
-      return processedData.map((e) => Product.fromJson(e)).toList();
-    } else if (response.statusCode == 404) {
-      return [];
-    } else {
-      throw Exception('Failed to load products: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        print('Found ${data.length} products for category: $categoryId');
+        
+        return data.map((e) => Product.fromJson(e)).toList();
+      } else if (response.statusCode == 404) {
+        print('No products found for category: $categoryId');
+        return [];
+      } else {
+        throw Exception('Failed to load products by category: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error getting products by category: $e');
+      throw Exception('Error getting products by category: $e');
     }
-  } catch (e) {
-    throw Exception('Error getting products by category: $e');
   }
-}
 
 
   // ==================== ORDER ====================
@@ -1009,7 +1007,6 @@ Future<bool> updateOrderStatus(String orderId, String status) async {
         // Kiểm tra cấu trúc response
         if (data is Map && data.containsKey('data')) {
           return data['data']; // Trả về data chứa order và orderDetails
-          
         } else {
           print('Unexpected order detail response structure: $data');
           throw Exception('Unexpected response structure');
@@ -1028,6 +1025,7 @@ Future<bool> updateOrderStatus(String orderId, String status) async {
 
 
 // ==================== RATINGS ====================
+
 // Lấy tất cả đánh giá
 Future<List<Rating>> getRatings() async {
   try {
@@ -1190,7 +1188,6 @@ Future<bool> deleteRating(String maSanPham) async {
     throw Exception('Error deleting rating: $e');
   }
 }
-
 
 
 //===================== COUPONS ====================

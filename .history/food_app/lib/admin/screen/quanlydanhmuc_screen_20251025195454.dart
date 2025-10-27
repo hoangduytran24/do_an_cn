@@ -39,6 +39,18 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
         _filteredCategories = categories;
         _isLoading = false;
       });
+      
+      // Debug: In thông tin các danh mục để kiểm tra
+      print('=== DEBUG CATEGORIES ===');
+      for (var category in categories) {
+        print('Category: ${category.tenDanhMuc}');
+        print('MaDanhMuc: ${category.maDanhMuc}');
+        print('Icon: ${category.icon}');
+        print('Icon type: ${category.icon.runtimeType}');
+        print('Icon isEmpty: ${category.icon.isEmpty}');
+        print('---');
+      }
+      
     } catch (e) {
       setState(() => _isLoading = false);
       _showErrorDialog('Lỗi tải dữ liệu', e.toString());
@@ -294,6 +306,7 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                       ? DecorationImage(
                           image: NetworkImage(_getImageUrl(category.icon)),
                           fit: BoxFit.cover,
+                          
                         )
                       : null,
             ),
@@ -333,10 +346,19 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
   }
 
   String _getImageUrl(String iconPath) {
+    // Nếu iconPath đã là URL đầy đủ
     if (iconPath.startsWith('http')) {
-      return iconPath.replaceAll('localhost', '10.0.2.2');
+      return iconPath;
     }
-    return iconPath;
+    
+    // Nếu iconPath là tên file hoặc đường dẫn tương đối
+    // Cần điều chỉnh base URL theo backend của bạn
+    const baseUrl = 'http://localhost:5000'; // Thay bằng URL thực tế của bạn
+    if (iconPath.startsWith('/')) {
+      return '$baseUrl$iconPath';
+    } else {
+      return '$baseUrl/uploads/$iconPath'; // Giả sử ảnh được lưu trong thư mục uploads
+    }
   }
 
   Widget _buildTextField(
@@ -633,7 +655,6 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
       backgroundColor: const Color(0xFFF8FAFD),
       body: Column(
         children: [
-          // Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(
@@ -683,8 +704,6 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               ],
             ),
           ),
-          
-          // Search
           Container(
             padding: const EdgeInsets.all(20),
             color: Colors.white,
@@ -713,8 +732,6 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
               onChanged: _onSearch,
             ),
           ),
-          
-          // Categories Grid
           Expanded(
             child: _isLoading
                 ? const Center(
@@ -774,20 +791,15 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                     : RefreshIndicator(
                         onRefresh: _loadCategories,
                         color: const Color(0xFF1A4D2E),
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(16),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                            childAspectRatio: 0.8,
-                          ),
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(20),
                           itemCount: _filteredCategories.length,
                           itemBuilder: (context, index) {
                             final category = _filteredCategories[index];
                             final color = _getCategoryColor(index);
                             
                             return Container(
+                              margin: const EdgeInsets.only(bottom: 16),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
@@ -799,120 +811,108 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                                   ),
                                 ],
                               ),
-                              child: Column(
-                                children: [
-                                  // Image Section
-                                  Container(
-                                    height: 120, // Tăng chiều cao
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Column(
+                                  children: [
+                                    // Header với ảnh từ backend
+                                    Container(
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [color.withOpacity(0.9), color.withOpacity(0.7)],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
                                       ),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16),
-                                      ),
-                                      child: category.icon.isNotEmpty
-                                          ? Image.network(
-                                              _getImageUrl(category.icon),
-                                              width: double.infinity, // Full width
-                                              height: double.infinity, // Full height
-                                              fit: BoxFit.cover, // Cover toàn bộ container
-                                              loadingBuilder: (context, child, loadingProgress) {
-                                                if (loadingProgress == null) return child;
-                                                return Container(
-                                                  color: Colors.grey[200],
-                                                  child: Center(
-                                                    child: CircularProgressIndicator(
-                                                      value: loadingProgress.expectedTotalBytes != null
-                                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                                          : null,
-                                                      color: const Color(0xFF1A4D2E),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder: (context, error, stackTrace) {
-                                                return Container(
-                                                  color: color.withOpacity(0.3),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Iconsax.gallery_slash,
-                                                      size: 40,
-                                                      color: color.withOpacity(0.6),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : Container(
-                                              color: color.withOpacity(0.3),
-                                              child: Center(
-                                                child: Icon(
-                                                  Iconsax.category,
-                                                  size: 40,
-                                                  color: color.withOpacity(0.6),
-                                                ),
+                                      child: Center(
+                                        child: category.icon.isNotEmpty
+                                            ? Image.network(
+                                                _getImageUrl(category.icon),
+                                                width: 60,
+                                                height: 60,
+                                                fit: BoxFit.cover,
+                                                loadingBuilder: (context, child, loadingProgress) {
+                                                  if (loadingProgress == null) return child;
+                                                  return CircularProgressIndicator(
+                                                    value: loadingProgress.expectedTotalBytes != null
+                                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                                        : null,
+                                                    color: Colors.white,
+                                                  );
+                                                },
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  print('Error loading category image: $error');
+                                                  print('Image URL: ${_getImageUrl(category.icon)}');
+                                                  return Icon(
+                                                    Iconsax.gallery_slash,
+                                                    size: 60,
+                                                    color: Colors.white.withOpacity(0.8),
+                                                  );
+                                                },
+                                              )
+                                            : Icon(
+                                                Iconsax.category,
+                                                size: 60,
+                                                color: Colors.white.withOpacity(0.8),
                                               ),
-                                            ),
+                                      ),
                                     ),
-                                  ),
-                                  
-                                  // Content Section
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
+                                    // Content
+                                    Padding(
+                                      padding: const EdgeInsets.all(16),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade100,
-                                              borderRadius: BorderRadius.circular(4),
-                                            ),
-                                            child: Text(
-                                              category.maDanhMuc,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.grey[700],
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey.shade100,
+                                                  borderRadius: BorderRadius.circular(6),
+                                                ),
+                                                child: Text(
+                                                  category.maDanhMuc,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                          const SizedBox(height: 6),
+                                          const SizedBox(height: 8),
                                           Text(
                                             category.tenDanhMuc,
                                             style: const TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.black87,
                                             ),
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          const Spacer(),
+                                          const SizedBox(height: 12),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                                 decoration: BoxDecoration(
                                                   color: Colors.green.withOpacity(0.1),
-                                                  borderRadius: BorderRadius.circular(6),
+                                                  borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: const Row(
                                                   children: [
-                                                    Icon(Iconsax.box, size: 12, color: Colors.green),
-                                                    SizedBox(width: 2),
+                                                    Icon(Iconsax.box, size: 14, color: Colors.green),
+                                                    SizedBox(width: 4),
                                                     Text(
-                                                      '0 SP',
+                                                      '0 sản phẩm',
                                                       style: TextStyle(
                                                         color: Colors.green,
-                                                        fontSize: 10,
+                                                        fontSize: 12,
                                                         fontWeight: FontWeight.w600,
                                                       ),
                                                     ),
@@ -925,14 +925,12 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                                                     onPressed: () => _showEditCategoryDialog(category),
                                                     icon: Iconsax.edit,
                                                     color: Color(0xFF2196F3),
-                                                    size: 14,
                                                   ),
-                                                  const SizedBox(width: 4),
+                                                  const SizedBox(width: 8),
                                                   _buildActionButton(
                                                     onPressed: () => _showDeleteConfirmation(category),
                                                     icon: Iconsax.trash,
                                                     color: Colors.red,
-                                                    size: 14,
                                                   ),
                                                 ],
                                               ),
@@ -941,8 +939,8 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
                                         ],
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -965,17 +963,16 @@ class _QuanLyDanhMucScreenState extends State<QuanLyDanhMucScreen> {
     required VoidCallback onPressed,
     required IconData icon,
     required Color color,
-    double size = 18,
   }) {
     return Container(
-      width: size + 8,
-      height: size + 8,
+      width: 36,
+      height: 36,
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: IconButton(
-        icon: Icon(icon, size: size, color: color),
+        icon: Icon(icon, size: 18, color: color),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         style: IconButton.styleFrom(tapTargetSize: MaterialTapTargetSize.shrinkWrap),

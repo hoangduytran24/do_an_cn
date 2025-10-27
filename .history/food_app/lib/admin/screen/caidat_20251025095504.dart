@@ -62,13 +62,25 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+          backgroundColor: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF667EEA),
+                  const Color(0xFF764BA2),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 25,
+                  offset: const Offset(0, 10),
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -79,12 +91,12 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
+                      color: Colors.white.withOpacity(0.2),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Iconsax.logout,
-                      color: Colors.grey.shade700,
+                      color: Colors.white,
                       size: 40,
                     ),
                   ),
@@ -94,7 +106,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -102,7 +114,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                     'Bạn có chắc muốn đăng xuất?',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: Colors.white70,
                       height: 1.5,
                     ),
                     textAlign: TextAlign.center,
@@ -111,58 +123,87 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.grey.shade700,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.2),
+                                Colors.white.withOpacity(0.1),
+                              ],
                             ),
-                            side: BorderSide(color: Colors.grey.shade300),
                           ),
-                          child: const Text('Hủy'),
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              side: BorderSide(color: Colors.white.withOpacity(0.3)),
+                            ),
+                            child: const Text('Hủy'),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            try {
-                              final success = await _apiService.logout();
-                              if (success) {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                                  (route) => false,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.red.shade400,
+                                Colors.red.shade600,
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.red.withOpacity(0.4),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              try {
+                                final success = await _apiService.logout();
+                                if (success) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                    (route) => false,
+                                  );
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Lỗi khi đăng xuất: $e'),
+                                    backgroundColor: Colors.red.shade600,
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
                                 );
                               }
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Lỗi khi đăng xuất: $e'),
-                                  backgroundColor: Colors.red.shade600,
-                                  behavior: SnackBarBehavior.floating,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red.shade600,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
                             ),
-                          ),
-                          child: const Text(
-                            'Đăng xuất',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                            child: const Text(
+                              'Đăng xuất',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
@@ -305,7 +346,14 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
               width: 140,
               height: 140,
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFF00C896).withOpacity(0.1),
+                    const Color(0xFF667EEA).withOpacity(0.1),
+                  ],
+                ),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -340,23 +388,39 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF667EEA),
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF667EEA),
+                          const Color(0xFF764BA2),
+                        ],
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF667EEA).withOpacity(0.4),
+                          blurRadius: 15,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
                     ),
-                    child: const Text(
-                      'Đăng nhập',
-                      style: TextStyle(color: Colors.white),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: const Text('Đăng nhập'),
                     ),
                   ),
                 ],
@@ -374,7 +438,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // User Info Card - GIỮ NGUYÊN GRADIENT
+          // User Info Card
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             child: Container(
@@ -579,9 +643,20 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.red.shade50,
-                border: Border.all(color: Colors.red.shade200),
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.red.shade500,
+                    Colors.red.shade700,
+                  ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.red.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: ElevatedButton(
                 onPressed: _logout,
@@ -590,7 +665,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                   shadowColor: Colors.transparent,
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Row(
@@ -599,7 +674,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                     Icon(
                       Iconsax.logout,
                       size: 20,
-                      color: Colors.red.shade700,
+                      color: Colors.white,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -607,7 +682,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
-                        color: Colors.red.shade700,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -736,7 +811,23 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
       height: 30,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: value ? const Color(0xFF00C896) : Colors.grey.shade400,
+        gradient: value 
+            ? LinearGradient(
+                colors: [
+                  const Color(0xFF00C896),
+                  const Color(0xFF667EEA),
+                ],
+              )
+            : LinearGradient(
+                colors: [Colors.grey.shade400, Colors.grey.shade600],
+              ),
+        boxShadow: [
+          BoxShadow(
+            color: value ? const Color(0xFF00C896).withOpacity(0.4) : Colors.transparent,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Stack(
         children: [
@@ -792,13 +883,25 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        backgroundColor: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                const Color(0xFF667EEA),
+                const Color(0xFF764BA2),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 25,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -809,12 +912,12 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Colors.white.withOpacity(0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Iconsax.info_circle,
-                    color: Colors.grey.shade700,
+                    color: Colors.white,
                     size: 40,
                   ),
                 ),
@@ -824,7 +927,7 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -833,16 +936,24 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
                 _buildAboutItem('Ngày phát hành', '2024'),
                 _buildAboutItem('Bản quyền', '© 2024 Your Company'),
                 const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.2),
+                        Colors.white.withOpacity(0.1),
+                      ],
+                    ),
+                  ),
                   child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade100,
-                      foregroundColor: Colors.grey.shade800,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     child: const Text('Đóng'),
@@ -865,14 +976,14 @@ class _CaiDatScreenState extends State<CaiDatScreen> {
           Text(
             title,
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: Colors.white70,
               fontWeight: FontWeight.w500,
             ),
           ),
           Text(
             value,
             style: const TextStyle(
-              color: Colors.black87,
+              color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
           ),
