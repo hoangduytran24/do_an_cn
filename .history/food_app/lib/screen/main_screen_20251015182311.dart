@@ -4,6 +4,8 @@ import 'favorite_page.dart';
 import 'voucher_page.dart';
 import 'account_page.dart';
 import 'cart_page.dart';
+import '../service/api_service.dart';
+import 'login_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,6 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  final ApiService _apiService = ApiService();
 
   static final List<Widget> _pages = [
     const HomePage(),
@@ -29,7 +32,17 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-
+  Future<void> _logout() async {
+    await _apiService.logout();
+    
+    if (!mounted) return;
+    
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +245,12 @@ class _MainScreenState extends State<MainScreen> {
       ),
       backgroundColor: Colors.white,
       elevation: 0,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.logout, color: Colors.red),
+          onPressed: _logout,
+        ),
+      ],
     );
   }
 }

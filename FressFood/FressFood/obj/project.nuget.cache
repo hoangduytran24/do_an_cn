@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+vo9ceyxEjw=",
+  "dgSpecHash": "0ALwXTk+ZxA=",
   "success": true,
-  "projectFilePath": "E:\\do_an_chuyen_nganh\\Phone\\FressFood\\FressFood\\FressFood.csproj",
+  "projectFilePath": "E:\\do_an_chuyen_chuyen_nganh\\do_an_cn\\FressFood\\FressFood\\FressFood.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hoang\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\hoang\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
