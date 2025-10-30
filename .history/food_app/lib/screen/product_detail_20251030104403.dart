@@ -1669,51 +1669,36 @@ class _RatingDialogState extends State<RatingDialog> {
             const SizedBox(height: 20),
             
             // Buttons
-            // Buttons - PHIÊN BẢN ĐẢM BẢO KHÔNG XUỐNG DÒNG
-Row(
-  children: [
-    Expanded(
-      child: TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-        ),
-        child: const Text(
-          'HỦY',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    ),
-    const SizedBox(width: 12),
-    Expanded(
-      child: ElevatedButton(
-        onPressed: _isSubmitting ? null : _submitRating,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-        ),
-        child: _isSubmitting
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('HỦY'),
+                  ),
                 ),
-              )
-            : const Text(
-                'GỬI ĐÁNH GIÁ',
-                style: TextStyle(
-                  fontSize: 14, // Giảm font size nếu cần
-                  fontWeight: FontWeight.w600,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _isSubmitting ? null : _submitRating,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: _isSubmitting
+                        ? const SizedBox(
+                            width: 40,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : const Text('GỬI ĐÁNH GIÁ'),
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-      ),
-    ),
-  ],
-),
+              ],
+            ),
           ],
         ),
       ),

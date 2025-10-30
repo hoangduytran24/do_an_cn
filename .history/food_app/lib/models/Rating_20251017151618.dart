@@ -1,14 +1,12 @@
 class Rating {
   final String maSanPham;
   final String maTaiKhoan;
-  final String maDonHang;
   final String? noiDung;
   final int soSao;
 
   Rating({
     required this.maSanPham,
     required this.maTaiKhoan,
-    required this.maDonHang,
     this.noiDung,
     required this.soSao,
   });
@@ -17,7 +15,6 @@ class Rating {
     return {
       'maSanPham': maSanPham,
       'maTaiKhoan': maTaiKhoan,
-      'maDonHang': maDonHang,
       'noiDung': noiDung,
       'soSao': soSao,
     };
@@ -27,7 +24,6 @@ class Rating {
     return Rating(
       maSanPham: json['maSanPham'] ?? '',
       maTaiKhoan: json['maTaiKhoan'] ?? '',
-      maDonHang: json['maDonHang'] ?? '',
       noiDung: json['noiDung'],
       soSao: json['soSao'] ?? 0,
     );

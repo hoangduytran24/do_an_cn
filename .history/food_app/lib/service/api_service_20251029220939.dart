@@ -1192,53 +1192,7 @@ Future<bool> deleteRating(String maSanPham) async {
   }
 }
 
-// Kiểm tra xem user đã mua sản phẩm này chưa
-Future<bool> hasUserPurchasedProduct(String maSanPham) async {
-  try {
-    final user = await getCurrentUser();
-    if (user == null) return false;
 
-    final headers = await getHeaders();
-    final response = await http.get(
-      Uri.parse('$baseUrl/Ratings/check-purchase/${user.maTaiKhoan}/$maSanPham'),
-      headers: headers,
-    ).timeout(const Duration(seconds: 30));
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      return data['hasPurchased'] ?? false;
-    } else {
-      print('Failed to check purchase status: ${response.statusCode}');
-      return false;
-    }
-  } catch (e) {
-    print('Error checking purchase status: $e');
-    return false;
-  }
-}
-
-// Kiểm tra và trả về chi tiết số lần mua
-Future<Map<String, dynamic>> getUserPurchaseInfo(String maSanPham) async {
-  try {
-    final user = await getCurrentUser();
-    if (user == null) return {'hasPurchased': false, 'purchaseCount': 0};
-
-    final headers = await getHeaders();
-    final response = await http.get(
-      Uri.parse('$baseUrl/Ratings/check-purchase/${user.maTaiKhoan}/$maSanPham'),
-      headers: headers,
-    ).timeout(const Duration(seconds: 30));
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      return {'hasPurchased': false, 'purchaseCount': 0};
-    }
-  } catch (e) {
-    print('Error getting purchase info: $e');
-    return {'hasPurchased': false, 'purchaseCount': 0};
-  }
-}
 
 //===================== COUPONS ====================
  // GET: Lấy tất cả phiếu giảm giá

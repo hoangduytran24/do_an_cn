@@ -101,7 +101,6 @@ class _ProductReviewPageState extends State<ProductReviewPage> {
       final rating = Rating(
         maSanPham: widget.productId,
         maTaiKhoan: user.maTaiKhoan,
-        maDonHang: _userReview?.maDonHang ?? '',
         soSao: _selectedStars,
         noiDung: _reviewController.text.trim().isEmpty ? null : _reviewController.text.trim(),
       );

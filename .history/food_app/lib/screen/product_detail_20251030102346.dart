@@ -32,8 +32,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   RatingStats _ratingStats = RatingStats(averageRating: 0.0, totalRatings: 0);
   bool _isLoadingRatings = false;
   bool _hasUserRated = false;
-  bool _hasUserPurchased = false;
-  bool _isCheckingPurchase = false;
+  bool _hasUserPurchased = false; // Thêm biến kiểm tra đã mua hàng
+  bool _isCheckingPurchase = false; // Thêm biến kiểm tra trạng thái
   Rating? _userRating;
 
   @override
@@ -53,9 +53,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     fetchProductDetail();
     _checkFavoriteStatus();
     _loadRatings();
-    _checkPurchaseStatus();
+    _checkPurchaseStatus(); // Kiểm tra trạng thái mua hàng
   }
 
+  // Thêm hàm kiểm tra trạng thái mua hàng
   Future<void> _checkPurchaseStatus() async {
     try {
       setState(() => _isCheckingPurchase = true);
@@ -147,31 +148,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
 
   // ==================== PHẦN ĐÁNH GIÁ ====================
 
-  // Hiển thị dialog đánh giá
+  // Hiển thị dialog đánh giá - ĐÃ THÊM KIỂM TRA MUA HÀNG
   void _showRatingDialog() {
+    // Kiểm tra xem user đã đăng nhập chưa
     _apiService.isLoggedIn().then((isLoggedIn) {
       if (!isLoggedIn) {
         _showLoginRequiredSnackBar();
         return;
       }
 
+      // Kiểm tra xem user đã mua sản phẩm chưa
       if (!_hasUserPurchased) {
         _showPurchaseRequiredDialog();
         return;
       }
 
-      // Nếu user đã đánh giá rồi, không cho đánh giá lại
-      if (_hasUserRated) {
-        _showAlreadyRatedSnackBar();
-        return;
-      }
-
+      // Nếu đã mua, hiển thị dialog đánh giá
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return RatingDialog(
             productId: widget.productId,
             productName: product?.tenSanPham ?? '',
+            userRating: _userRating,
             onRatingSubmitted: () {
               _loadRatings(); // Reload ratings after submission
               Navigator.of(context).pop();
@@ -211,24 +210,44 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     );
   }
 
-  // Thông báo đã đánh giá rồi
-  void _showAlreadyRatedSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.info_outline, color: Colors.white),
-            SizedBox(width: 8),
-            Text('Bạn đã đánh giá sản phẩm này rồi'),
+  // Xóa đánh giá
+  Future<void> _deleteRating() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Xóa đánh giá'),
+          content: const Text('Bạn có chắc chắn muốn xóa đánh giá này?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('HỦY'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('XÓA', style: TextStyle(color: Colors.red)),
+            ),
           ],
-        ),
-        backgroundColor: Colors.blue,
-        behavior: SnackBarBehavior.floating,
-      ),
+        );
+      },
     );
+
+    if (confirmed == true) {
+      try {
+        final success = await _apiService.deleteRating(widget.productId);
+        if (success) {
+          _showSuccessSnackBar('Đã xóa đánh giá thành công');
+          await _loadRatings();
+        } else {
+          _showErrorSnackBar('Không thể xóa đánh giá');
+        }
+      } catch (e) {
+        _showErrorSnackBar('Lỗi xóa đánh giá: $e');
+      }
+    }
   }
 
-  // Widget hiển thị phần đánh giá
+  // Widget hiển thị phần đánh giá - ĐÃ CẬP NHẬT VỚI KIỂM TRA MUA HÀNG
   Widget _buildRatingSection() {
     return _buildSection(
       icon: Icons.reviews_outlined,
@@ -239,7 +258,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           _buildRatingStats(),
           const SizedBox(height: 16),
           
-          // Nút hành động đánh giá
+          // Nút hành động đánh giá - ĐÃ CẬP NHẬT
           _buildRatingActionButton(),
           const SizedBox(height: 16),
           
@@ -297,7 +316,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     );
   }
 
-  // Nút hành động đánh giá
+  // Nút hành động đánh giá - ĐÃ CẬP NHẬT VỚI KIỂM TRA MUA HÀNG
   Widget _buildRatingActionButton() {
     // Hiển thị loading khi đang kiểm tra
     if (_isCheckingPurchase) {
@@ -379,27 +398,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             ),
           ),
           if (_hasUserRated)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.green.shade50,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.green.shade200),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.check, color: Colors.green.shade600, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    'ĐÃ ĐÁNH GIÁ',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.green.shade700,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit, size: 20),
+                  onPressed: _showRatingDialog,
+                  color: Colors.blue,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, size: 20),
+                  onPressed: _deleteRating,
+                  color: Colors.red,
+                ),
+              ],
             )
           else if (_hasUserPurchased)
             ElevatedButton(
@@ -461,7 +472,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     );
   }
 
-  // Item đánh giá - ĐÃ XÓA NÚT SỬA/XÓA
+  // Item đánh giá
   Widget _buildRatingItem(Rating rating) {
     final isCurrentUser = _userRating?.maTaiKhoan == rating.maTaiKhoan;
     
@@ -527,13 +538,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             ),
           ],
         ),
-        // ĐÃ XÓA CÁC NÚT SỬA/XÓA Ở ĐÂY
       ),
     );
   }
 
   // ... [CÁC PHẦN KHÁC GIỮ NGUYÊN] ...
 
+  // Các method khác giữ nguyên (_buildLoadingScreen, _buildErrorScreen, _buildProductDetail, etc.)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -651,6 +662,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
         CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
+            // ... [PHẦN SLIVERAPPBAR VÀ CÁC PHẦN KHÁC GIỮ NGUYÊN] ...
             SliverAppBar(
               expandedHeight: 450,
               backgroundColor: Colors.transparent,
@@ -954,7 +966,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
 
                     const SizedBox(height: 20),
 
-                    // PHẦN ĐÁNH GIÁ
+                    // PHẦN ĐÁNH GIÁ ĐÃ ĐƯỢC TÍCH HỢP VỚI KIỂM TRA MUA HÀNG
                     _buildRatingSection(),
 
                     const SizedBox(height: 100),
@@ -1467,6 +1479,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
       final success = await _apiService.addToCart(product!.maSanPham, quantity);
       if (success) {
         _showSuccessSnackBar('Đã thêm "${product!.tenSanPham}" vào giỏ hàng');
+        // Sau khi thêm vào giỏ hàng, có thể refresh trạng thái mua hàng
         _checkPurchaseStatus();
       } else {
         _showErrorSnackBar('Không thể thêm sản phẩm vào giỏ hàng');
@@ -1542,16 +1555,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   }
 }
 
-// Dialog đánh giá - ĐÃ XÓA CHỨC NĂNG SỬA
+// Dialog đánh giá - GIỮ NGUYÊN
 class RatingDialog extends StatefulWidget {
   final String productId;
   final String productName;
+  final Rating? userRating;
   final VoidCallback onRatingSubmitted;
 
   const RatingDialog({
     super.key,
     required this.productId,
     required this.productName,
+    this.userRating,
     required this.onRatingSubmitted,
   });
 
@@ -1564,6 +1579,15 @@ class _RatingDialogState extends State<RatingDialog> {
   final ApiService _apiService = ApiService();
   int _selectedStars = 0;
   bool _isSubmitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.userRating != null) {
+      _selectedStars = widget.userRating!.soSao;
+      _reviewController.text = widget.userRating!.noiDung ?? '';
+    }
+  }
 
   Future<void> _submitRating() async {
     if (_selectedStars == 0) {
@@ -1584,12 +1608,17 @@ class _RatingDialogState extends State<RatingDialog> {
       final rating = Rating(
         maSanPham: widget.productId,
         maTaiKhoan: user.maTaiKhoan,
-        maDonHang: '', // Không cần mã đơn hàng cho đánh giá mới
+        maDonHang: widget.userRating?.maDonHang ?? '',
         soSao: _selectedStars,
         noiDung: _reviewController.text.trim().isEmpty ? null : _reviewController.text.trim(),
       );
 
-      final success = await _apiService.addRating(rating);
+      bool success;
+      if (widget.userRating != null && widget.userRating!.soSao > 0) {
+        success = await _apiService.updateRating(rating);
+      } else {
+        success = await _apiService.addRating(rating);
+      }
 
       if (success) {
         widget.onRatingSubmitted();
@@ -1607,6 +1636,8 @@ class _RatingDialogState extends State<RatingDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isEdit = widget.userRating != null && widget.userRating!.soSao > 0;
+
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -1616,9 +1647,9 @@ class _RatingDialogState extends State<RatingDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Đánh giá sản phẩm',
-              style: TextStyle(
+            Text(
+              isEdit ? 'Chỉnh sửa đánh giá' : 'Đánh giá sản phẩm',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -1669,51 +1700,36 @@ class _RatingDialogState extends State<RatingDialog> {
             const SizedBox(height: 20),
             
             // Buttons
-            // Buttons - PHIÊN BẢN ĐẢM BẢO KHÔNG XUỐNG DÒNG
-Row(
-  children: [
-    Expanded(
-      child: TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-        ),
-        child: const Text(
-          'HỦY',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    ),
-    const SizedBox(width: 12),
-    Expanded(
-      child: ElevatedButton(
-        onPressed: _isSubmitting ? null : _submitRating,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-        ),
-        child: _isSubmitting
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('HỦY'),
+                  ),
                 ),
-              )
-            : const Text(
-                'GỬI ĐÁNH GIÁ',
-                style: TextStyle(
-                  fontSize: 14, // Giảm font size nếu cần
-                  fontWeight: FontWeight.w600,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _isSubmitting ? null : _submitRating,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: _isSubmitting
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
+                        : Text(isEdit ? 'CẬP NHẬT' : 'GỬI ĐÁNH GIÁ'),
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-      ),
-    ),
-  ],
-),
+              ],
+            ),
           ],
         ),
       ),
